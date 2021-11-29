@@ -3,7 +3,6 @@ package edu.neu.coe.info6205.sort;
 import edu.neu.coe.info6205.sort.elementary.InsertionSortMSD;
 
 import java.text.Collator;
-import java.util.Locale;
 
 public class MSDRadixSort {
 
