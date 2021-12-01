@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.sort.linearithmic;
+package edu.neu.edu.info6205.sort.linearithmic;
 import org.junit.Test;
 import java.text.Collator;
 import java.util.*;

@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205.sort;
+package edu.neu.coe.info6205.sort.counting;
 
 import edu.neu.coe.info6205.sort.elementary.InsertionSortMSD;
 
