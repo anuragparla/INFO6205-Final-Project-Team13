@@ -5,6 +5,7 @@ import edu.neu.coe.info6205.sort.Helper;
 //import edu.neu.coe.info6205.sort.elementary.BenchmarkDriver;
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.util.*;
+import org.apache.log4j.BasicConfigurator;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -28,6 +29,7 @@ public class TimSortBenchmark {
         }
         catch (Exception e){
             System.out.println("IO exception");
+            e.printStackTrace(System.out);
         }
 
 
@@ -43,6 +45,7 @@ public class TimSortBenchmark {
     private static Config config;
     public static void main(String[] args)
     {
+        BasicConfigurator.configure();
         String description = "TimSort for the given array of ascii and unicode characters";
         TimSortBenchmark tsb = new TimSortBenchmark();
         //Helper<String> helper = new BaseHelper<>(description, N, config);
