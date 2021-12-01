@@ -1,4 +1,4 @@
-package edu.neu.edu.info6205.sort.linearithmic;
+package edu.neu.coe.info6205.sort.linearithmic;
 import edu.neu.coe.info6205.sort.linearithmic.TimSort;
 import org.junit.Test;
 import java.text.Collator;
@@ -56,6 +56,7 @@ public class TimSortTest {
             }
             assertEquals(expectedEnglish,actualEnglish);
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             System.out.println("IO Exception occured");
         }
     }
