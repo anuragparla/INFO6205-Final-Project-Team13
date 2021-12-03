@@ -6,13 +6,10 @@ import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.util.Config;
 import edu.neu.coe.info6205.util.LazyLogger;
 
-import java.text.Collator;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Locale;
 
 public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<X> {
-    public static Collator collatorObject = Collator.getInstance(Locale.getDefault());
 
     public QuickSort(String description, int N, Config config) {
         super(description, N, config);
@@ -66,7 +63,7 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
      * @param depth the depth of the recursion.
      */
     public void sort(X[] xs, int from, int to, int depth) {
-        if (terminator(xs, from, to, depth, collatorObject)) return;
+        if (terminator(xs, from, to, depth)) return;
         getHelper().registerDepth(depth);
         Partition<X> partition = createPartition(xs, from, to);
         if (partitioner == null) throw new RuntimeException("partitioner not set");
@@ -97,25 +94,13 @@ public abstract class QuickSort<X extends Comparable<X>> extends SortWithHelper<
      */
     protected boolean terminator(X[] xs, int from, int to, int depth) {
         @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-
         if (to <= lo + getHelper().cutoff()) {
             insertionSort.sort(xs, from, to);
             return true;
         }
-        //if(to-1 <= from) return true;
         return false;
     }
 
-    protected boolean terminator(X[] xs, int from, int to, int depth, Collator cl) {
-        @SuppressWarnings("UnnecessaryLocalVariable") int lo = from;
-
-        if (to <= lo + getHelper().cutoff()) {
-            insertionSort.sort(xs, from, to, cl);
-            return true;
-        }
-        //if(to-1 <= from) return true;
-        return false;
-    }
     public InsertionSort<X> getInsertionSort() {
         return insertionSort;
     }
