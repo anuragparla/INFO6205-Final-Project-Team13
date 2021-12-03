@@ -18,7 +18,7 @@ public class HelperFactory {
      */
     public static <X extends Comparable<X>> Helper<X> create(String description, int nElements, Config config) {
         //return create(description, nElements, config.isInstrumented(), config);
-        return new BaseHelper<>(description, nElements, config);
+        return description == "QuickSort dual pivot" ?  new BaseHelper<>(description, nElements, config) : create(description, nElements, config.isInstrumented(), config);
     }
 
     /**

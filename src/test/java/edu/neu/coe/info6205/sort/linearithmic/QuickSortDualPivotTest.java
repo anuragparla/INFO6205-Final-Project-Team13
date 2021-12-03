@@ -30,8 +30,8 @@ public class QuickSortDualPivotTest {
         GenericSort<String> s = new QuickSort_DualPivot<>(input.length, config);
         String[] ys = s.sort(input,false);
 
-        //System.out.println("After: " + Arrays.toString(input));
-        //System.out.println("Expected: " + Arrays.toString(expected));
+        System.out.println("After: " + Arrays.toString(input));
+        System.out.println("Expected: " + Arrays.toString(expected));
         assertArrayEquals(expected, input);
     }
 
