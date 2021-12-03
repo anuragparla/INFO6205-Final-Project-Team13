@@ -1,26 +1,45 @@
 package edu.neu.coe.info6205.sort.counting;
 
+import edu.neu.coe.info6205.sort.BaseHelper;
+import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.sort.elementary.InsertionSortMSD;
+import edu.neu.coe.info6205.sort.linearithmic.TimSort;
+import edu.neu.coe.info6205.util.Config;
 
+import java.io.IOException;
 import java.text.Collator;
+import java.util.Collection;
 
-public class MSDRadixSort {
+public class MSDRadixSort<X extends Comparable<X>> extends SortWithHelper<X> {
 
     private static final int radix = 65536;
     private static final int cutoff = 15;
     private static String[] aux;       // auxiliary array for distribution
     public static Collator cmp;
+    public static final String DESCRIPTION = "MSD Radix Sort";
 
+    public MSDRadixSort(Helper<X> helper) { super(helper); }
+
+    public MSDRadixSort() throws IOException {
+        this(new BaseHelper<>(DESCRIPTION, Config.load(TimSort.class)));
+    }
     /**
      * Sort an array of Strings using MSDStringSort.
      *
      * @param a the array to be sorted.
      */
-    public static void sort(String[] a) {
+    public X[] sort(X[] a) {
         int n = a.length;
         aux = new String[n];
         if (cmp != null) InsertionSortMSD.cmp = cmp;
-        sort(a, 0, n, 0);
+        sort((String[]) a, 0, n, 0);
+        return a;
+    }
+
+    @Override
+    public void sort(X[] xs, int from, int to) {
+        sort(xs);
     }
 
     /**
@@ -33,7 +52,7 @@ public class MSDRadixSort {
      * @param d the number of characters in each String to be skipped.
      */
     private static void sort(String[] a, int lo, int hi, int d) {
-        if (hi < lo + cutoff) InsertionSortMSD.sort(a, lo, hi, d);
+        if (hi < lo + cutoff) InsertionSortMSD.sort( a, lo, hi, d);
         else {
             int[] count = new int[radix + 2];        // Compute frequency counts.
             for (int i = lo; i < hi; i++)
@@ -54,5 +73,7 @@ public class MSDRadixSort {
         if (d < s.length()) return s.charAt(d);
         else return -1;
     }
+
+
 }
 
