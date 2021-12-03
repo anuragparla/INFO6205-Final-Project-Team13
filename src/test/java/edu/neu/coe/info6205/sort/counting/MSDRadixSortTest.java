@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
-import edu.neu.coe.info6205.sort.counting.MSDRadixSort;
+import edu.neu.coe.info6205.sort.linearithmic.TimSort;
 import edu.neu.coe.info6205.util.Config;
 import org.junit.Test;
 
@@ -22,63 +22,88 @@ import static org.junit.Assert.assertEquals;
 public class MSDRadixSortTest {
 
     @Test
-    public void sort() {
+    public void sort() throws IOException {
         String[] input = "she sells seashells by the seashore the shells she sells are surely seashells".split(" ");
         String[] expected = "are by seashells seashells seashore sells sells she she shells surely the the".split(" ");
 
         System.out.println("Before: " + Arrays.toString(input));
-        MSDRadixSort.sort(input);
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(input);
         System.out.println("After: " + Arrays.toString(input));
         assertArrayEquals(expected, input);
     }
 
     @Test
-    public void sort_2() {
+    public void sort_2() throws IOException {
         String[] input = "cafeteria caffeine café".split(" ");
         String[] expected = "café cafeteria caffeine".split(" ");
 
         System.out.println("Before: " + Arrays.toString(input));
-        MSDRadixSort.sort(input);
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(input);
         System.out.println("After: " + Arrays.toString(input));
         assertArrayEquals(expected, input);
     }
 
     @Test
-    public void sort_chinese() {
+    public void sort_chinese() throws IOException {
         String[] input_chinese = "刘持平 洪文胜 樊辉辉 苏会敏 高民政".split(" ");
         String [] expected_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
 
         MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
         System.out.println("Before: " + Arrays.toString(input_chinese));
-        MSDRadixSort.sort(input_chinese);
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(input_chinese);
         System.out.println("After: " + Arrays.toString(input_chinese));
         assertArrayEquals(expected_chinese, input_chinese);
     }
 
     @Test
-    public void sort_devanagri() {
+    public void sort_devanagri() throws IOException {
         String[] input_devnagri = "खाली घर किताब करना किया कर खरगोश".split(" ");
         String [] expected_devnagri = "कर करना किताब किया खरगोश खाली घर".split(" ");
 
         MSDRadixSort.cmp = Collator.getInstance(new Locale("hi-IN"));
         System.out.println("Before: " + Arrays.toString(input_devnagri));
-        MSDRadixSort.sort(input_devnagri);
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(input_devnagri);
         System.out.println("After: " + Arrays.toString(input_devnagri));
         assertArrayEquals(expected_devnagri, input_devnagri);
     }
 
     @Test
-    public void sort1() throws IOException {
-        String[] words = getWords("/shuffledChinese.txt", MSDRadixSortTest::lineAsList);
-        MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
-        MSDRadixSort.sort(words);
-        assertEquals("阿安", words[0]);
+    public void sort2() throws IOException {
+        int n = 1000;
+        final Helper<String> helper = new BaseHelper<>("test", n, 1L, Config.load(MSDRadixSortTest.class));
+        helper.init(n);
+        String[] words = getWords("/3000-common-words.txt", MSDRadixSortTest::lineAsList);
+        final String[] xs = helper.random(String.class, r -> words[r.nextInt(words.length)]);
+        assertEquals(n, xs.length);
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(xs);
+        assertEquals("African-American", xs[0]);
+        assertEquals("Palestinian", xs[16]);
     }
 
     @Test
-    public void testGetWords1() {
-        String[] words = getWords("/shuffledChinese.txt", MSDRadixSortTest::lineAsList);
-        assertEquals(999998, words.length);
+    public void testGetWords2() {
+        String[] words = getWords("/3000-common-words.txt", MSDRadixSortTest::lineAsList);
+        assertEquals(2998, words.length);
+    }
+
+    @Test
+    public void testGetWords3() {
+        String[] words = getWords("/common-hindi-words.txt", MSDRadixSortTest::lineAsList);
+        assertEquals(1000, words.length);
+    }
+
+    @Test
+    public void sort3() throws IOException {
+        String[] words = getWords("/common-hindi-words.txt", MSDRadixSortTest::lineAsList);
+        MSDRadixSort.cmp = Collator.getInstance(new Locale("hi-IN"));
+        MSDRadixSort<String> msdSort = new MSDRadixSort<>();
+        msdSort.sort(words);
+        System.out.println("Here");
     }
 
     /**
