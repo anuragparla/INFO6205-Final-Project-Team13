@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017. Phasmid Software
+ * author hiral
  */
 
 package edu.neu.coe.info6205.sort.linearithmic;
@@ -11,9 +11,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 
-import static edu.neu.coe.info6205.util.Utilities.round;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("ALL")
@@ -51,20 +50,6 @@ public class QuickSortDualPivotTest {
     }
 
     @Test
-    public void sort_chinese() {
-        String[] input_chinese = "刘持平 洪文胜 樊辉辉 苏会敏 高民政".split(" ");
-        String [] expected_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
-
-        //MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
-        System.out.println("Before: " + Arrays.toString(input_chinese));
-        GenericSort<String> s = new QuickSort_DualPivot<>(input_chinese.length, config);
-        String[] ys = s.sort(input_chinese);
-        System.out.println("After: " + Arrays.toString(ys));
-        System.out.println("Expected: " + Arrays.toString(expected_chinese));
-        assertArrayEquals(expected_chinese, ys);
-    }
-
-    @Test
     public void sort_devanagri() {
         String[] input_devnagri = "खाली घर किताब करना किया कर खरगोश".split(" ");
         String [] expected_devnagri = "कर करना किताब किया खरगोश खाली घर".split(" ");
@@ -74,45 +59,6 @@ public class QuickSortDualPivotTest {
         System.out.println("After: " + Arrays.toString(ys));
         System.out.println("Expected" + Arrays.toString(expected_devnagri));
         assertArrayEquals(expected_devnagri, ys);
-    }
-
-
-    @Test
-    public void testSort1() throws Exception {
-
-        /*
-        List list = new ArrayList();
-        list.add("刘持平");
-        list.add("洪文胜");
-        list.add("樊辉辉");
-        list.add("苏会敏");
-        list.add("高民政");
-        Collator coll = Collator.getInstance(Locale.CHINA);
-
-        Collections.sort(list, coll);
-        System.out.println(list);
-
-         */
-        String[] input_chinese = "刘持平 洪文胜 樊辉辉 苏会敏 高民政".split(" ");
-
-        //String[] input_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
-        //String [] expected_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
-
-        //MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
-        System.out.println("Before: " + Arrays.toString(input_chinese));
-        GenericSort<String> s = new QuickSort_DualPivot<>(input_chinese.length, config);
-        String[] ys = s.sort(input_chinese);
-        //MSDRadixSort.sort(input_chinese);
-        System.out.println("After: " + Arrays.toString(input_chinese));
-        //assertArrayEquals(expected_chinese, input_chinese);
-
-        /*
-        String[] xs = {"刘持平","洪文胜","樊辉辉","苏会敏","高民政"};
-        GenericSort<String> s = new QuickSort_DualPivot<>(xs.length, config);
-        String[] ys = s.sort(xs);
-        System.out.println(ys);
-
-         */
     }
 
     @Test
@@ -161,154 +107,18 @@ public class QuickSortDualPivotTest {
     }
 
     @Test
-    public void testSortWithInstrumenting3() throws Exception {
-        int n = 1000;
-        final SortWithHelper<Integer> sorter = new QuickSort_DualPivot<>(n, config);
-        final Helper<Integer> helper = sorter.getHelper();
-        final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(1000));
-        final Integer[] sorted = sorter.sort(xs);
-        assertTrue(helper.sorted(sorted));
-    }
+    public void sort_gujarati() {
+        String[] input_gujarati = "હે યહોવા તું મારો દેવ છે".split(" ");
+        String [] expected_guarati = "છે તું દેવ મારો યહોવા હે".split(" ");
 
-    @Test
-    public void testSortWithInstrumenting4() throws Exception {
-        int n = 1000;
-        final SortWithHelper<Integer> sorter = new QuickSort_DualPivot<>(n, config);
-        final Helper<Integer> helper = sorter.getHelper();
-        final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
-        final Integer[] sorted = sorter.sort(xs);
-        assertTrue(helper.sorted(sorted));
-    }
+        QuickSort_DualPivot.collatorObject = Collator.getInstance(new Locale("gu_IN"));
 
-    @Test
-    public void testSortWithInstrumenting5() throws Exception {
-        int n = 1000;
-        final SortWithHelper<Integer> sorter = new QuickSort_DualPivot<>(n, config);
-        final Helper<Integer> helper = sorter.getHelper();
-        final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
-        final Integer[] sorted = sorter.sort(xs);
-        assertTrue(helper.sorted(sorted));
-    }
-
-    @Test
-    public void testPartition1() throws Exception {
-        String testString = "PBAXWPPVPCPDZY";
-        char[] charArray = testString.toCharArray();
-        Character[] array = new Character[charArray.length];
-        for (int i = 0; i < array.length; i++) array[i] = charArray[i];
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
-        QuickSort<Character> sorter = new QuickSort_DualPivot<Character>(array.length, config);
-        Partitioner<Character> partitioner = sorter.partitioner;
-        List<Partition<Character>> partitions = partitioner.partition(QuickSort.createPartition(array));
-        assertEquals(3, partitions.size());
-        Partition<Character> p0 = partitions.get(0);
-        assertEquals(0, p0.from);
-        assertEquals(4, p0.to);
-        Partition<Character> p1 = partitions.get(1);
-        assertEquals(5, p1.from);
-        assertEquals(12, p1.to);
-        Partition<Character> p2 = partitions.get(2);
-        assertEquals(13, p2.from);
-        assertEquals(14, p2.to);
-        char[] chars = new char[array.length];
-        for (int i = 0; i < chars.length; i++) chars[i] = array[i];
-        String partitionedString = new String(chars);
-        assertEquals("DBACPPPVPXPWYZ", partitionedString);
-    }
-
-    @Test
-    public void testPartition2() throws Exception {
-        String testString = "SEAYRLFVZQTCMK";
-        char[] charArray = testString.toCharArray();
-        Character[] array = new Character[charArray.length];
-        for (int i = 0; i < array.length; i++) array[i] = charArray[i];
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
-        QuickSort<Character> sorter = new QuickSort_DualPivot<Character>(array.length, config);
-        Partitioner<Character> partitioner = sorter.partitioner;
-        List<Partition<Character>> partitions = partitioner.partition(QuickSort.createPartition(array));
-        assertEquals(3, partitions.size());
-        Partition<Character> p0 = partitions.get(0);
-        assertEquals(0, p0.from);
-        assertEquals(4, p0.to);
-        Partition<Character> p1 = partitions.get(1);
-        assertEquals(5, p1.from);
-        assertEquals(9, p1.to);
-        Partition<Character> p2 = partitions.get(2);
-        assertEquals(10, p2.from);
-        assertEquals(14, p2.to);
-        char[] chars = new char[array.length];
-        for (int i = 0; i < chars.length; i++) chars[i] = array[i];
-        String partitionedString = new String(chars);
-        assertEquals("CEAFKLMRQSZVYT", partitionedString);
-    }
-
-    @Test
-    public void testSortDetailed() throws Exception {
-        int k = 7;
-        int N = (int) Math.pow(2, k);
-        // NOTE this depends on the cutoff value for quick sort.
-        int levels = k - 2;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
-        final BaseHelper<Integer> helper = (BaseHelper<Integer>) HelperFactory.create("quick sort dual pivot", N, config);
-        System.out.println(helper);
-        Sort<Integer> s = new QuickSort_DualPivot<>(helper);
-        s.init(N);
-        final Integer[] xs = helper.random(Integer.class, r -> r.nextInt(10000));
-        assertEquals(Integer.valueOf(1360), xs[0]);
-        helper.preProcess(xs);
-        Integer[] ys = s.sort(xs);
-        assertTrue(helper.sorted(ys));
-        helper.postProcess(ys);
-        final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
-        final StatPack statPack = (StatPack) privateMethodTester.invokePrivate("getStatPack");
-        System.out.println(statPack);
-        final int compares = (int) statPack.getStatistics(InstrumentedHelper.COMPARES).mean();
-        final int inversions = (int) statPack.getStatistics(InstrumentedHelper.INVERSIONS).mean();
-        final int fixes = (int) statPack.getStatistics(InstrumentedHelper.FIXES).mean();
-        final int swaps = (int) statPack.getStatistics(InstrumentedHelper.SWAPS).mean();
-        final int copies = (int) statPack.getStatistics(InstrumentedHelper.COPIES).mean();
-        final int worstCompares = round(2.0 * N * Math.log(N));
-        System.out.println("compares: " + compares + ", worstCompares: " + worstCompares);
-        assertTrue(compares <= worstCompares);
-        assertTrue(inversions <= fixes);
-    }
-
-    @Test
-    public void testPartitionWithSort() {
-        String[] xs = new String[]{"g", "f", "e", "d", "c", "b", "a"};
-        int n = xs.length;
-        final Config config = ConfigTest.setupConfig("true", "0", "1", "", "");
-        final BaseHelper<String> helper = new InstrumentedHelper<>("test", config);
-        final PrivateMethodTester privateMethodTester = new PrivateMethodTester(helper);
-        QuickSort<String> sorter = new QuickSort_DualPivot<>(helper);
-        int inversions = n * (n - 1) / 2;
-        assertEquals(inversions, helper.inversions(xs));
-        Partitioner<String> partitioner = sorter.createPartitioner();
-        List<Partition<String>> partitions = partitioner.partition(new Partition<>(xs, 0, xs.length));
-        assertEquals(11, privateMethodTester.invokePrivate("getFixes"));
-        Partition<String> p0 = partitions.get(0);
-        sorter.sort(xs, 0, p0.to, 0);
-        assertEquals(11, privateMethodTester.invokePrivate("getFixes"));
-        Partition<String> p1 = partitions.get(1);
-        sorter.sort(xs, p1.from, p1.to, 0);
-        assertEquals(21, privateMethodTester.invokePrivate("getFixes"));
-        Partition<String> p2 = partitions.get(2);
-        sorter.sort(xs, p2.from, n, 0);
-        int fixes = (int) privateMethodTester.invokePrivate("getFixes");
-        // NOTE: there are at least as many fixes as inversions -- sort methods aren't necessarily perfectly efficient in terms of swaps.
-        assertTrue(inversions <= fixes);
-        assertEquals(0, helper.inversions(xs));
-        assertEquals(11, privateMethodTester.invokePrivate("getSwaps"));
-    }
-
-    private static String[] setupWords(final int n) {
-        if (n > 36) throw new RuntimeException("cannot have n > 36");
-        String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
-        String[] words = new String[n * n];
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                words[i * n + j] = alphabet.substring(i, i + 1) + alphabet.substring(j, j + 1);
-        return words;
+        System.out.println("Before: " + Arrays.toString(input_gujarati));
+        GenericSort<String> s = new QuickSort_DualPivot<>(input_gujarati.length, config);
+        String[] ys = s.sort(input_gujarati);
+        System.out.println("After: " + Arrays.toString(ys));
+        System.out.println("Expected" + Arrays.toString(expected_guarati));
+        assertArrayEquals(expected_guarati, ys);
     }
 
     final static LazyLogger logger = new LazyLogger(QuickSort_DualPivot.class);
