@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.sort;
 
+import java.text.Collator;
+
 import static java.util.Arrays.binarySearch;
 
 /**
@@ -72,6 +74,17 @@ public interface Helper<X extends Comparable<X>> extends GenericHelper<X> {
         final X v = xs[i];
         final X w = xs[i - 1];
         boolean result = v.compareTo(w) < 0;
+        if (result) {
+            xs[i] = w;
+            xs[i - 1] = v;
+        }
+        return result;
+    }
+
+    default boolean swapStableConditional(X[] xs, int i, Collator cl) {
+        final X v = xs[i];
+        final X w = xs[i - 1];
+        boolean result = cl.compare(v,w) < 0;
         if (result) {
             xs[i] = w;
             xs[i - 1] = v;
