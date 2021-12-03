@@ -10,8 +10,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.Collator;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import static edu.neu.coe.info6205.util.Utilities.round;
 import static org.junit.Assert.*;
@@ -24,10 +26,12 @@ public class QuickSortDualPivotTest {
         String[] input = "she sells seashells by the seashore the shells she sells are surely seashells".split(" ");
         String[] expected = "are by seashells seashells seashore sells sells she she shells surely the the".split(" ");
 
+        QuickSort_DualPivot.collatorObject = Collator.getInstance(Locale.ENGLISH);
+
         System.out.println("Before: " + Arrays.toString(input));
         GenericSort<String> s = new QuickSort_DualPivot<>(input.length, config);
         String[] ys = s.sort(input,false);
-        //Dual_Pivot_Quick_Sort.sort(input);
+
         System.out.println("After: " + Arrays.toString(input));
         System.out.println("Expected: " + Arrays.toString(expected));
         assertArrayEquals(expected, input);
@@ -38,16 +42,15 @@ public class QuickSortDualPivotTest {
         String[] input = "cafeteria caffeine cafe".split(" ");
         String[] expected = "cafe cafeteria caffeine".split(" ");
 
+        QuickSort_DualPivot.collatorObject = Collator.getInstance(Locale.ENGLISH);
+
         System.out.println("Before: " + Arrays.toString(input));
         GenericSort<String> s = new QuickSort_DualPivot<>(input.length, config);
         String[] ys = s.sort(input, false);
-        //Dual_Pivot_Quick_Sort.sort(input);
+
         System.out.println("After: " + Arrays.toString(input));
-        //System.out.println("Input: " + Arrays.toString(input));
         System.out.println("expected: " + Arrays.toString(expected));
         assertArrayEquals(expected, input);
-
-
     }
 
     @Test
@@ -55,10 +58,11 @@ public class QuickSortDualPivotTest {
         String[] input_chinese = "刘持平 洪文胜 樊辉辉 苏会敏 高民政".split(" ");
         String [] expected_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
 
-        //MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
+        QuickSort_DualPivot.collatorObject = Collator.getInstance(Locale.CHINA);
+
         System.out.println("Before: " + Arrays.toString(input_chinese));
         GenericSort<String> s = new QuickSort_DualPivot<>(input_chinese.length, config);
-        String[] ys = s.sort(input_chinese);
+        String[] ys = s.sort(input_chinese,false);
         System.out.println("After: " + Arrays.toString(ys));
         System.out.println("Expected: " + Arrays.toString(expected_chinese));
         assertArrayEquals(expected_chinese, ys);
@@ -68,6 +72,9 @@ public class QuickSortDualPivotTest {
     public void sort_devanagri() {
         String[] input_devnagri = "खाली घर किताब करना किया कर खरगोश".split(" ");
         String [] expected_devnagri = "कर करना किताब किया खरगोश खाली घर".split(" ");
+
+        QuickSort_DualPivot.collatorObject = Collator.getInstance(new Locale("hi-IN"));
+
         System.out.println("Before: " + Arrays.toString(input_devnagri));
         GenericSort<String> s = new QuickSort_DualPivot<>(input_devnagri.length, config);
         String[] ys = s.sort(input_devnagri);
@@ -76,44 +83,6 @@ public class QuickSortDualPivotTest {
         assertArrayEquals(expected_devnagri, ys);
     }
 
-
-    @Test
-    public void testSort1() throws Exception {
-
-        /*
-        List list = new ArrayList();
-        list.add("刘持平");
-        list.add("洪文胜");
-        list.add("樊辉辉");
-        list.add("苏会敏");
-        list.add("高民政");
-        Collator coll = Collator.getInstance(Locale.CHINA);
-
-        Collections.sort(list, coll);
-        System.out.println(list);
-
-         */
-        String[] input_chinese = "刘持平 洪文胜 樊辉辉 苏会敏 高民政".split(" ");
-
-        //String[] input_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
-        //String [] expected_chinese = "樊辉辉 高民政 洪文胜 刘持平 苏会敏".split(" ");
-
-        //MSDRadixSort.cmp = Collator.getInstance(Locale.CHINA);
-        System.out.println("Before: " + Arrays.toString(input_chinese));
-        GenericSort<String> s = new QuickSort_DualPivot<>(input_chinese.length, config);
-        String[] ys = s.sort(input_chinese);
-        //MSDRadixSort.sort(input_chinese);
-        System.out.println("After: " + Arrays.toString(input_chinese));
-        //assertArrayEquals(expected_chinese, input_chinese);
-
-        /*
-        String[] xs = {"刘持平","洪文胜","樊辉辉","苏会敏","高民政"};
-        GenericSort<String> s = new QuickSort_DualPivot<>(xs.length, config);
-        String[] ys = s.sort(xs);
-        System.out.println(ys);
-
-         */
-    }
 
     @Test
     public void testSort() throws Exception {

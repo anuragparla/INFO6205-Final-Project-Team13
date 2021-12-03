@@ -9,6 +9,7 @@ public class Partition<X extends Comparable<X>> {
         this.xs = xs;
         this.from = from;
         this.to = to;
+
     }
 
     @Override

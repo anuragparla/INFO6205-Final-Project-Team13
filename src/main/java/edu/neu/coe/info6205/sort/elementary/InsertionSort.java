@@ -8,7 +8,10 @@ import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
 
+import java.text.Collator;
+
 public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
+    public static Collator collatorObject;
 
     /**
      * Constructor for any sub-classes to use.
@@ -61,6 +64,18 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         for (int i = from+1 ; i < to; i++) {
             for (int j = i - 1; j >= 0; j--) {
                 if (!helper.swapStableConditional(xs, j + 1)) {
+                    break;
+                }
+            }
+        }
+    }
+
+    public void sort(X[] xs, int from, int to, Collator cl) {
+        final Helper<X> helper = getHelper();
+
+        for (int i = from+1 ; i < to; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (!helper.swapStableConditional(xs, j + 1,cl)) {
                     break;
                 }
             }
