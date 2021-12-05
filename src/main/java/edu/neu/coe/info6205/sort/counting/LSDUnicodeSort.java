@@ -1,10 +1,8 @@
 package edu.neu.coe.info6205.sort.counting;
 
-
-
 public class LSDUnicodeSort {
 
-    private final int ASCII_RANGE = 65536;
+    private final int UNICODE_RANGE = 65536;
 
     /**
      * findMaxLength method returns maximum length of all available strings in an array
@@ -20,12 +18,12 @@ public class LSDUnicodeSort {
     }
 
     /**
-     * charAsciiVal method returns ASCII value of particular character in a String.
+     * charAsciiVal method returns UNICODE value of particular character in a String.
      *
-     * @param str          String input for which ASCII Value need to be found
-     * @param charPosition Character position of which ASCII value needs to be found. If character
-     *                     doesn't exist then ASCII value of null i.e. 0 is returned
-     * @return int Returns ASCII value
+     * @param str          String input for which UNICODE Value need to be found
+     * @param charPosition Character position of which UNICODE value needs to be found. If character
+     *                     doesn't exist then UNICODE value of null i.e. 0 is returned
+     * @return int Returns UNICODE value
      */
     private int charAsciiVal(String str, int charPosition) {
         if (charPosition >= str.length()) {
@@ -43,7 +41,7 @@ public class LSDUnicodeSort {
      * @param to           This is the ending index up until which sorting operation will be continued
      */
     private void charSort(String[] strArr, int charPosition, int from, int to) {
-        int[] count = new int[ASCII_RANGE + 2];
+        int[] count = new int[UNICODE_RANGE + 2];
         String[] result = new String[strArr.length];
 
         for (int i = from; i <= to; i++) {
@@ -52,7 +50,7 @@ public class LSDUnicodeSort {
         }
 
         // transform counts to indices
-        for (int r = 1; r < ASCII_RANGE + 2; r++)
+        for (int r = 1; r < UNICODE_RANGE + 2; r++)
             count[r] += count[r - 1];
 
         // distribute
