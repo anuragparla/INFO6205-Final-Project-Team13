@@ -1,12 +1,9 @@
-package edu.neu.coe.info6205.sort.linearithmic;
-import edu.neu.coe.info6205.sort.BaseHelper;
+package edu.neu.coe.info6205.sort.counting;
 import edu.neu.coe.info6205.sort.GenericSort;
-import edu.neu.coe.info6205.sort.Helper;
-//import edu.neu.coe.info6205.sort.elementary.BenchmarkDriver;
-import edu.neu.coe.info6205.sort.elementary.InsertionSort;
+import edu.neu.coe.info6205.sort.linearithmic.TimSort;
+import edu.neu.coe.info6205.sort.linearithmic.TimSortBenchmark;
 import edu.neu.coe.info6205.util.*;
 import org.apache.log4j.BasicConfigurator;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,13 +13,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-
-public class TimSortBenchmark {
-
+public class LSDRadixSortBenchmark {
     public void runBenchmark(String description, Supplier<String[]> supplier) {
-        //helper.init(N);
-
         try {
             final GenericSort<String> sort = new TimSort<>();
             final Benchmark<String[]> benchmark = new Benchmark_Timer<>(
@@ -37,7 +29,6 @@ public class TimSortBenchmark {
             System.out.println("IO exception");
             e.printStackTrace(System.out);
         }
-
 
     }
     public static String formatWhole(final int x) {
@@ -58,7 +49,6 @@ public class TimSortBenchmark {
             return new String[0];
         }
     }
-
 
     private static List<String> getWordList(final FileReader fr, final Function<String, List<String>> stringListFunction, final int minLength) {
         final List<String> words = new ArrayList<>();
@@ -85,14 +75,13 @@ public class TimSortBenchmark {
     final static LazyLogger logger = new LazyLogger(TimSortBenchmark.class);
     public static int N = 1000;
     private static Config config;
+
     public static void main(String[] args)
     {
         BasicConfigurator.configure();
-        String description = "TimSort for the given array of ascii and unicode characters";
-        TimSortBenchmark tsb = new TimSortBenchmark();
-        //Helper<String> helper = new BaseHelper<>(description, N, config);
-        //String[] arr = {"刘持平,洪文胜,樊辉辉,苏会敏,高民政"};
-        Supplier<String[]> supplier = () -> getWords("/common-hindi-words.txt", TimSortBenchmark::lineAsList);
-        tsb.runBenchmark(description,supplier);
+        String description = "LSDRadix Sort for the given array of ascii and unicode characters";
+        LSDRadixSortBenchmark lsb = new LSDRadixSortBenchmark();
+        Supplier<String[]> supplier = () -> getWords("/common-hindi-words.txt", LSDRadixSortBenchmark::lineAsList);
+        lsb.runBenchmark(description,supplier);
     }
 }
