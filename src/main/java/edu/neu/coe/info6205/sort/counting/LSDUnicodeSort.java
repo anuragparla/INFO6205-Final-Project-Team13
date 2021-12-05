@@ -86,15 +86,6 @@ public class LSDUnicodeSort {
     public void sort(String[] strArr) {
         sort(strArr, 0, strArr.length - 1);
     }
-    /*
-    public static void main(String[] args) {
-        String[] arr = "she sells seashells by the seashore the shells she sells are surely seashells".split(" ");
-        String[] hindi = "खाली घर किताब करना किया कर खरगोश".split(" ");
-        LSDUnicodeSort lsdu = new LSDUnicodeSort();
-        lsdu.sort(hindi);
-        for(String s : hindi) {
-            System.out.print(s +" ");
-        }
-    } */
+
 }
 

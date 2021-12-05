@@ -30,7 +30,7 @@ public class LSDUnicodeSortTest {
         for(String s: words) {
             System.out.print(s + " ");
         }
-        //assertEquals("", words[0]);
+
     }
 
     public static String formatWhole(final int x) {
@@ -51,7 +51,6 @@ public class LSDUnicodeSortTest {
             return new String[0];
         }
     }
-
 
     private static List<String> getWordList(final FileReader fr, final Function<String, List<String>> stringListFunction, final int minLength) {
         final List<String> words = new ArrayList<>();
@@ -74,8 +73,5 @@ public class LSDUnicodeSortTest {
         words.add(line);
         return words;
     }
-
-
-
 
 }
