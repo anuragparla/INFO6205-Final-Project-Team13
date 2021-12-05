@@ -4,7 +4,6 @@ import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.sort.elementary.InsertionSortMSD;
-import edu.neu.coe.info6205.sort.linearithmic.TimSort;
 import edu.neu.coe.info6205.util.Config;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class MSDRadixSort<X extends Comparable<X>> extends SortWithHelper<X> {
     public MSDRadixSort(Helper<X> helper) { super(helper); }
 
     public MSDRadixSort() throws IOException {
-        this(new BaseHelper<>(DESCRIPTION, Config.load(TimSort.class)));
+        this(new BaseHelper<>(DESCRIPTION, Config.load(MSDRadixSort.class)));
     }
     /**
      * Sort an array of Strings using MSDStringSort.

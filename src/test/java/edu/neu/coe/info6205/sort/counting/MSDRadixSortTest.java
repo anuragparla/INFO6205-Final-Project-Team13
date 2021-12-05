@@ -94,7 +94,7 @@ public class MSDRadixSortTest {
     @Test
     public void testGetWords3() {
         String[] words = getWords("/common-hindi-words.txt", MSDRadixSortTest::lineAsList);
-        assertEquals(1000, words.length);
+        assertEquals(2000, words.length);
     }
 
     @Test
