@@ -1,11 +1,8 @@
 package edu.neu.coe.info6205.sort.huskySort;
 
-import edu.neu.coe.info6205.sort.GenericSort;
-import edu.neu.coe.info6205.sort.counting.MSDRadixSort;
 import edu.neu.coe.info6205.sort.huskySortUtils.Coding;
 import edu.neu.coe.info6205.sort.huskySortUtils.HuskyCoder;
 import edu.neu.coe.info6205.sort.huskySortUtils.HuskyCoderFactory;
-import edu.neu.coe.info6205.sort.huskySortUtils.HuskySortHelper;
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.util.Benchmark;
 import edu.neu.coe.info6205.util.Benchmark_Timer;
@@ -17,6 +14,7 @@ import java.text.Collator;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.binarySearch;
 
@@ -31,19 +29,27 @@ public class PureHuskySort<X extends Comparable<X>> {
 
     public static void main(final String[] args) {
         BasicConfigurator.configure();
-        final int N = 50000;
         final int m = 100;
-        logger.info("PureHuskySort.main: sorting " + N + " random alphabetic ASCII words " + m + " times");
+        words = Utilities.getWords("/shuffledHindi.txt", PureHuskySort.class);
+        for (int i = 0; i<=12; i++) {
+            logger.info("PureHuskySort.main: sorting " + N + " random alphabetic words " + m + " times");
+            Supplier<String[]> supplier = () -> createArray(N);
+            PureHuskySort.runBenchmark(supplier);
+            N = N * 2;
+        }
+    }
+
+    private static void runBenchmark(Supplier supplier){
         final PureHuskySort<String> pureHuskySort = new PureHuskySort<>(HuskyCoderFactory.unicodeCoder, false, false);
         final Benchmark<String[]> benchmark = new Benchmark_Timer<>("Husky sort", null, pureHuskySort::sort, null);
-        Supplier<String[]> supplier = () -> createArray(N);
         logger.info(Utilities.formatDecimal3Places(benchmark.runFromSupplier(supplier, 100)) + " ms");
-
     }
 
     private static String[] createArray(int size) {
-        final String[] inputArr = {"刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政"};
-        return inputArr;
+        if(size < words.length){
+            return Arrays.stream(words).limit(size).collect(Collectors.toList()).toArray(new String[0]);
+        }
+        return words;
     }
 
     /**
@@ -235,6 +241,8 @@ public class PureHuskySort<X extends Comparable<X>> {
     private final HuskyCoder<X> huskyCoder;
     private final boolean mayBeSorted;
     private final boolean useInsertionSort;
+    private static String[] words;
+    private static int N = 1000;
 
     private final static LazyLogger logger = new LazyLogger(PureHuskySort.class);
 }
