@@ -9,72 +9,47 @@ import edu.neu.coe.info6205.util.*;
 import org.apache.log4j.BasicConfigurator;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class MSDRadixSortBenchmark  {
 
     private static Config config;
-    public static int N;
+    public static int N = 1000;
     final static LazyLogger logger = new LazyLogger(MSDRadixSortBenchmark.class);
 
     public static void main(String []args) {
         BasicConfigurator.configure();
         System.out.println("Benchmarking msd radix sort");
-        resetArraySize();
         //Array with elements in random order
-        //for (int i = 0; i<5; i++) {
+        for (int i = 0; i<=12; i++) {
             Helper<String> helper = new BaseHelper<>("MSD Radix Sort - Random", N, config);
-            Supplier<String[]> supplier = () -> createArray(N);
+            Supplier<String[]> supplier = () -> createArray(N, helper);
             MSDRadixSortBenchmark.runBenchmark(helper, supplier, "Random");
             N = N * 2;
-        //}
-        resetArraySize();
+        }
 
-//        //Benchmarking for ordered array
-//        for (int i = 0; i<5; i++) {
-//            Helper<String> helper = new BaseHelper<>("Insertion Sort - Random", N, config);
-//            Supplier<String[]> supplier = () -> createArray(N);
-//            MSDRadixSortBenchmark.runBenchmark(helper, supplier, "Ordered");
-//            N = N * 2;
-//        }
-//        resetArraySize();
-//
-//        //Benchmarking for reverse-ordered array
-//        for (int i = 0; i<5; i++) {
-//            Helper<String> helper = new BaseHelper<>("Insertion Sort - Random", N, config);
-//            Supplier<String[]> supplier = () -> createArray(N);;
-//            MSDRadixSortBenchmark.runBenchmark(helper, supplier, "Reverse Ordered");
-//            N = N * 2;
-//        }
-//        resetArraySize();
-//
-//        for (int i=0; i<5; i++) {
-//            Helper<String> helper = new BaseHelper<>("Insertion Sort - Random", N, config);
-//            Supplier<String[]> supplier = () -> createArray(N);;
-//            MSDRadixSortBenchmark.runBenchmark(helper, supplier, "Partially Ordered");
-//            N = N * 2;
-//        }
     }
 
-    private static String[] createArray(int size) {
-        final String[] inputArr = {"刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政"};
-        return inputArr;
-    }
-
-    public static void resetArraySize(){
-        N = 4000;
+    private static String[] createArray(int size, Helper helper) {
+        String[] words = Utilities.getWords("/shuffledHindi.txt", MSDRadixSortBenchmark.class);
+        if(size < words.length){
+            return Arrays.stream(words).limit(size).collect(Collectors.toList()).toArray(new String[0]);
+        }
+        return words;
     }
 
     private static void runBenchmark(Helper helper, Supplier supplier, String description){
         final GenericSort<String> sort = new MSDRadixSort<>(helper);
         final Benchmark<String[]> benchmark = new Benchmark_Timer<>(
-                "Insert sort " + description + " for " + N + " Integers",
+                "MSD Radix sort " + description + " for array of size " + N,
                 (xs) -> Arrays.copyOf(xs, xs.length),
                 sort::sort,
                 null
         );
-        logger.info(Utilities.formatDecimal3Places(benchmark.runFromSupplier(supplier, 100)) + " ms");
+        logger.info(Utilities.formatDecimal3Places(benchmark.runFromSupplier(supplier, 10)) + " ms");
     }
 
 }
