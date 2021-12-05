@@ -20,11 +20,11 @@ public class MSDRadixSortBenchmark  {
 
     public static void main(String []args) {
         BasicConfigurator.configure();
-        System.out.println("Benchmarking insertion sort");
+        System.out.println("Benchmarking msd radix sort");
         resetArraySize();
         //Array with elements in random order
         //for (int i = 0; i<5; i++) {
-            Helper<String> helper = new BaseHelper<>("Insertion Sort - Random", N, config);
+            Helper<String> helper = new BaseHelper<>("MSD Radix Sort - Random", N, config);
             Supplier<String[]> supplier = () -> createArray(N);
             MSDRadixSortBenchmark.runBenchmark(helper, supplier, "Random");
             N = N * 2;
