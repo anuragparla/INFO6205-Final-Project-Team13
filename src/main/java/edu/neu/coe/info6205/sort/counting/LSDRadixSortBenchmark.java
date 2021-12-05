@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.sort.counting;
 import edu.neu.coe.info6205.sort.GenericSort;
+import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.linearithmic.TimSort;
 import edu.neu.coe.info6205.sort.linearithmic.TimSortBenchmark;
 import edu.neu.coe.info6205.util.*;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class LSDRadixSortBenchmark {
     public void runBenchmark(String description, Supplier<String[]> supplier) {
         try {
-            final GenericSort<String> sort = new TimSort<>();
+            final LSDUnicodeSort sort = new LSDUnicodeSort();
             final Benchmark<String[]> benchmark = new Benchmark_Timer<>(
                     description + " for " + N + " Strings",
                     (xs) -> Arrays.copyOf(xs, xs.length),
@@ -36,7 +37,7 @@ public class LSDRadixSortBenchmark {
     }
 
     static String[] getWords(final String resource, final Function<String, List<String>> stringListFunction) {
-        Class<?> clazz = TimSortBenchmark.class;
+        Class<?> clazz = LSDRadixSortBenchmark.class;
         try {
             Object res = clazz.getResource(resource);
             final File file = new File(Objects.requireNonNull(clazz.getResource(resource)).toURI());
