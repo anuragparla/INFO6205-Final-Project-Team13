@@ -1,9 +1,14 @@
 package edu.neu.coe.info6205.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Random;
+import java.net.URISyntaxException;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Utilities {
     /**
@@ -65,4 +70,53 @@ public class Utilities {
     public static double lg(double n) {
         return Math.log(n) / Math.log(2);
     }
+
+    /**
+     * Method to open a resource relative to this class and from the corresponding File, get an array of Strings.
+     *
+     * @param resource           the URL of the resource containing the Strings required.
+     * @return an array of Strings.
+     */
+    public static String[] getWords(final String resource, Class clazz) {
+        try {
+            final File file = new File(Objects.requireNonNull(clazz.getResource(resource)).toURI());
+            final String[] result = getWordArray(file, 2);
+            //System.out.println("getWords: testing with " + formatWhole(result.length) + " unique words: from " + file);
+            return result;
+        } catch (final URISyntaxException | NullPointerException e) {
+            System.out.println("Cannot find resource: " + resource + "  relative to class: " + clazz);
+            return new String[0];
+        }
+    }
+
+    static List<String> getWordList(final FileReader fr, final int minLength) {
+        final List<String> words = new ArrayList<>();
+        for (final Object line : new BufferedReader(fr).lines().toArray())
+            words.addAll(lineAsList((String) line));
+        return words.stream().filter(s -> s.length() >= minLength).collect(Collectors.toList());
+    }
+
+    static List<String> lineAsList(final String line) {
+        final List<String> words = new ArrayList<>();
+        words.add(line);
+        return words;
+    }
+
+
+    /**
+     * Method to read given file and return a String[] of its content.
+     *
+     * @param file               the file to read.
+     * @param minLength          the minimum acceptable length for a word.
+     * @return an array of Strings.
+     */
+    static String[] getWordArray(final File file, final int minLength) {
+        try (final FileReader fr = new FileReader(file)) {
+            return getWordList(fr, minLength).toArray(new String[0]);
+        } catch (final IOException e) {
+            System.out.println("Cannot open file: " + file);
+            return new String[0];
+        }
+    }
+
 }

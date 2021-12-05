@@ -76,4 +76,5 @@ public class MSDRadixSortBenchmark  {
         );
         logger.info(Utilities.formatDecimal3Places(benchmark.runFromSupplier(supplier, 100)) + " ms");
     }
+
 }
