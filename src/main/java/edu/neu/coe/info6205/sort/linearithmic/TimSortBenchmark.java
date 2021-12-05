@@ -81,10 +81,6 @@ public class TimSortBenchmark {
         words.add(line);
         return words;
     }
-    private static String[] chineseArray() {
-        String[] arr = {"刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政,刘持平,洪文胜,樊辉辉,苏会敏,高民政"};
-        return arr;
-    }
 
     final static LazyLogger logger = new LazyLogger(TimSortBenchmark.class);
     public static int N = 1000;
